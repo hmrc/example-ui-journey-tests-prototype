@@ -1,4 +1,4 @@
-{% extends "layouts/main.html" %}
+{% extends "layouts/main.njk" %}
 
 {% block content %}
 
@@ -16,7 +16,11 @@
       {% set patterns = [
         "accordion",
         "character-count",
-        "confirmation-page"
+        "confirmation-page",
+        "check-your-answers",
+        "date",
+        "checkboxes",
+        "radios"
       ] %}
       {% for pattern in patterns %}
         <li><a href="/{{ pattern }}">{{ pattern }}</a></li>

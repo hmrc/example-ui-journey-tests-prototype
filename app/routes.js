@@ -10,8 +10,12 @@ const router = govukPrototypeKit.requests.setupRouter()
 
 router.use((req, res, next) => {
     // we don't want to save journey or step between navigations
-    req.session.data['journey'] = req.query.journey ? parseInt(req.query.journey) : ""
-    req.session.data['step'] = req.query.step ? parseInt(req.query.step) : ""
+    if ((typeof req.query.journey == "undefined") || (typeof req.query.step == "undefined")) {
+        delete req.session.data['journey']
+        delete req.session.data['step']
+    }
+    // we want this updated without a reload
+    res.locals.journeys = require('./assets/journeys')
     res.locals.currentUrl = req.originalUrl
     next()
 })

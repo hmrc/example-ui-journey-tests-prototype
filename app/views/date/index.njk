@@ -1,0 +1,20 @@
+{% extends "layouts/step.njk" %}
+
+{% block step %}
+
+{{ govukDateInput({
+  id: "passport-issued",
+  namePrefix: thisStepFieldName,
+  fieldset: {
+    legend: {
+      text: thisStepData.question | default("When was your passport issued?"),
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  hint: {
+    text: "For example, 27 3 2007"
+  }
+}) }}
+
+{% endblock %}
