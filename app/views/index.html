@@ -1,7 +1,5 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName="Home" %}
-
 {% block content %}
 
 <div class="govuk-grid-row">
@@ -16,10 +14,22 @@
 
     <ul class="govuk-list govuk-list--bullet">
       {% set patterns = [
-        "accordion"
+        "accordion",
+        "character-count",
+        "confirmation-page"
       ] %}
       {% for pattern in patterns %}
         <li><a href="/{{ pattern }}">{{ pattern }}</a></li>
+      {% endfor %}
+    </ul>
+
+    <h2 class="govuk-heading-m">
+      Example journeys
+    </h2>
+
+    <ul class="govuk-list govuk-list--bullet">
+      {% for journey in data.journeys %}
+      <li><a href="{{ journey.steps[0].url }}?journey={{ loop.index0 }}&step=0">{{ journey.name }}</a></li>
       {% endfor %}
     </ul>
   </div>

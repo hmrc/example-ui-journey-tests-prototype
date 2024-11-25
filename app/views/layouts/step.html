@@ -1,0 +1,116 @@
+{% set journey = data.journeys[data.journey] | default({}) %}
+{% set steps   = journey.steps %}
+
+{% set thisStep = data.step|default(0) %}
+{% set thisStepData = steps[thisStep] | default({}) %}
+
+{% set nextStep = thisStep|int + 1 %}
+{% set nextStepData = steps[nextStep] %}
+
+{% set serviceName = journey.name %}
+
+{% set journeyAnswers = data.answers["journey" + data.journey] | default({}) %}
+
+{% set thisStepFieldName = "answers[journey" + data.journey + "][" + thisStepData.field + "]" %}
+
+{% extends "layouts/main.html" %}
+
+{% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "javascript:history.back()"
+    }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {% if thisStepData.heading %}
+            <h1 class="govuk-heading-l">
+                {{ thisStepData.heading }}
+            </h1>
+        {% endif %}
+        <form action="{{ nextStepData.url }}?journey={{ data.journey }}&step={{ nextStep }}" method="post" novalidate>
+            {% block step %}{% endblock %}
+
+            {% if nextStepData %}
+                {{ govukButton({
+                    text: buttonLabel | default("Continue")
+                }) }}
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% if data.debug == "on" %}
+    {{ govukSummaryList({
+      card: {
+        classes: "govuk-!-margin-top-5",
+        title: {
+          text: "debugging information"
+        },
+        actions: {
+          items: [
+            {
+              href: currentUrl | replace('&debug=on', '') + "&debug=off",
+              text: "turn off",
+              visuallyHiddenText: "debugging information"
+            }
+          ]
+        }
+      },
+      rows: [
+        {
+          key: {
+            text: "this journey"
+          },
+          value: {
+            html: '<pre class="govuk-!-font-size-14" style="white-space: pre-wrap;">' + journey.name + "</pre>"
+          }
+        },
+        {
+          key: {
+            text: "answers"
+          },
+          value: {
+            html: '<pre class="govuk-!-font-size-14" style="white-space: pre-wrap;">' + journeyAnswers|dump(2) + "</pre>"
+          }
+        },
+        {
+          key: {
+            text: "steps"
+          },
+          value: {
+            html: '<pre class="govuk-!-font-size-14" style="white-space: pre-wrap;">' + steps|dump(2) + "</pre>"
+          }
+        },
+        {
+          key: {
+            text: "this step data"
+          },
+          value: {
+            html: '<pre class="govuk-!-font-size-14" style="white-space: pre-wrap;">' + thisStepData|dump + "</pre>"
+          }
+        },
+        {
+          key: {
+            text: "next step index"
+          },
+          value: {
+            html: '<pre class="govuk-!-font-size-14">' + nextStep + "</pre>"
+          }
+        },
+        {
+          key: {
+            text: "next step data"
+          },
+          value: {
+            html: '<pre class="govuk-!-font-size-14" style="white-space: pre-wrap;">' + nextStepData|dump + "</pre>"
+          }
+        }
+      ]
+    }) }}
+{% endif %}
+
+{% endblock %}
