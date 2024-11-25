@@ -6,14 +6,22 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-
-    {% include "govuk-prototype-kit/includes/homepage-top.njk" %}
-
-    <h1 class="govuk-heading-xl">
+    <h1 class="govuk-heading-l">
       {{ serviceName }}
     </h1>
 
-    {% include "govuk-prototype-kit/includes/homepage-bottom.njk" %}
+    <p class="govuk-body">
+      Templates with examples of different components and patterns:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      {% set patterns = [
+        "accordion"
+      ] %}
+      {% for pattern in patterns %}
+        <li><a href="/{{ pattern }}">{{ pattern }}</a></li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
 
