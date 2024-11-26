@@ -3,7 +3,7 @@
 {% block step %}
 
 {{ govukPanel({
-  titleText: "Application complete",
+  titleText: thisStepData.title | default("Application complete"),
   html: "Your reference number<br><strong>HDJ2123F</strong>"
 }) }}
 

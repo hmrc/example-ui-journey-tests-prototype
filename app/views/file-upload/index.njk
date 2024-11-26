@@ -1,0 +1,20 @@
+{% extends "layouts/step.njk" %}
+
+{% block step %}
+
+  <div class="govuk-form-group">
+    {{ govukFileUpload({
+      id: "file-upload-1",
+      name: thisStepFieldName,
+      hint: {
+        text: "You can upload your receipt as a scanned copy or photo of the original. The selected file must be smaller than 100MB."
+      },
+      label: {
+        text: thisStepData.question | default("Upload receipt"),
+        classes: "govuk-label--l",
+        isPageHeading: true
+      }
+    }) }}
+  </div>
+
+{% endblock %}

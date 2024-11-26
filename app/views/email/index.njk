@@ -1,0 +1,13 @@
+{% extends "layouts/step.njk" %}
+
+{% block step %}
+{{ govukInput({
+  label: {
+    text: thisStepData.question | default("What is the name of the event?"),
+    classes: "govuk-label--l",
+    isPageHeading: true
+  },
+  id: "event-name",
+  name: thisStepFieldName
+}) }}
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "layouts/step.njk" %}
+
+{% set buttonLabel = "Make payment" %}
+
+{% block step %}
+
+{{ govukInput({
+  label: {
+    text: "Name on the account"
+  },
+  id: "name-on-the-account",
+  autocomplete: "name",
+  spellcheck: false
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Sort code"
+  },
+  classes: "govuk-input--width-5 govuk-input--extra-letter-spacing",
+  hint: {
+    text: "Must be 6 digits long"
+  },
+  id: "sort-code",
+  inputmode: "numeric",
+  spellcheck: false
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Account number"
+  },
+  classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
+  hint: {
+    text: "Must be between 6 and 8 digits long"
+  },
+  id: "account-number",
+  inputmode: "numeric",
+  spellcheck: false
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Building society roll number (if you have one)"
+  },
+  classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
+  hint: {
+    text: "You can find it on your card, statement or passbook"
+  },
+  id: "roll-number",
+  spellcheck: false
+}) }}
+
+{% endblock %}

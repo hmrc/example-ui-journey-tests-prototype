@@ -32,7 +32,7 @@
     </h2>
 
     <ul class="govuk-list govuk-list--bullet">
-      {% for journey in data.journeys %}
+      {% for journey in journeys %}
       <li><a href="{{ journey.steps[0].url }}?journey={{ loop.index0 }}&step=0">{{ journey.name }}</a></li>
       {% endfor %}
     </ul>
