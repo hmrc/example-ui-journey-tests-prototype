@@ -1,0 +1,37 @@
+{% extends "layouts/step.njk" %}
+
+{% block step %}
+
+{{ govukCheckboxes({
+  name: thisStepFieldName,
+  values: journeyAnswers[thisStepData.field],
+  fieldset: {
+    legend: {
+      text: thisStepData.question | default("What is your nationality?"),
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  hint: {
+    text: "If you have dual nationality, select all options that are relevant to you."
+  },
+  items: thisStepData.items | default([
+    {
+      value: "british",
+      text: "British",
+      hint: {
+        text: "including English, Scottish, Welsh and Northern Irish"
+      }
+    },
+    {
+      value: "irish",
+      text: "Irish"
+    },
+    {
+      value: "other",
+      text: "Citizen of another country"
+    }
+  ])
+}) }}
+
+{% endblock %}

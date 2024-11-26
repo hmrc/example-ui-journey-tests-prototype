@@ -1,0 +1,77 @@
+{% extends "layouts/step.njk" %}
+
+{% block step %}
+<script src="
+https://cdn.jsdelivr.net/npm/accessible-autocomplete@3.0.1/dist/accessible-autocomplete.min.js
+"></script>
+<link href="
+  https://cdn.jsdelivr.net/npm/accessible-autocomplete@3.0.1/dist/accessible-autocomplete.min.css
+  " rel="stylesheet">
+
+  {{ govukSelect({
+    id: "location",
+    name: "location",
+    label: {
+      text: "Choose location",
+      classes: "govuk-label--l",
+
+      isPageHeading: true
+    },
+    hint: {
+      text: "This can be different to where you went before"
+    },
+    items: [
+      {
+        value: "choose",
+        text: "Choose location",
+        selected: true
+      },
+      {
+        value: "eastmidlands",
+        text: "East Midlands"
+      },
+      {
+        value: "eastofengland",
+        text: "East of England"
+      },
+      {
+        value: "london",
+        text: "London"
+      },
+      {
+        value: "northeast",
+        text: "North East"
+      },
+      {
+        value: "northwest",
+        text: "North West"
+      },
+      {
+        value: "southeast",
+        text: "South East"
+      },
+      {
+        value: "southwest",
+        text: "South West"
+      },
+      {
+        value: "westmidlands",
+        text: "West Midlands"
+      },
+      {
+        value: "yorkshire",
+        text: "Yorkshire and the Humber"
+      }
+    ]
+  }) }}
+
+  <script type="text/javascript">
+      var selectEl = document.querySelector('#location')
+      accessibleAutocomplete.enhanceSelectElement({
+        autoselect: true,
+        defaultValue: selectEl.options[selectEl.options.selectedIndex].innerHTML,
+        minLength: 2,
+        selectElement: selectEl
+      })
+  </script>
+{% endblock %}

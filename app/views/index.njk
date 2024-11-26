@@ -1,0 +1,42 @@
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      {{ serviceName }}
+    </h1>
+
+    <p class="govuk-body">
+      Templates with examples of different components and patterns:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      {% set patterns = [
+        "accordion",
+        "character-count",
+        "confirmation-page",
+        "check-your-answers",
+        "date",
+        "checkboxes",
+        "radios"
+      ] %}
+      {% for pattern in patterns %}
+        <li><a href="/{{ pattern }}">{{ pattern }}</a></li>
+      {% endfor %}
+    </ul>
+
+    <h2 class="govuk-heading-m">
+      Example journeys
+    </h2>
+
+    <ul class="govuk-list govuk-list--bullet">
+      {% for journey in journeys %}
+      <li><a href="{{ journey.steps[0].url }}?journey={{ loop.index0 }}&step=0">{{ journey.name }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}
