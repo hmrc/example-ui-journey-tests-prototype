@@ -1,0 +1,35 @@
+{% extends "layouts/step.njk" %}
+
+{% set pageHeading = "Check your answers" %}
+{% set buttonLabel = "Accept and send" %}
+
+{% block step %}
+
+<dl class="govuk-summary-list">
+  {% for answer in thisStepData.answers | default([
+    { label: "Name", value: "Jane Doe" },
+    { label: "Date of birth", value: "2000-01-01" },
+    { label: "Date of birth", value: "72 Guild Street<br>London<br>SE23 6FH" }
+  ]) %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      {{ answer.label }}
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {% if answer.field %}
+        {{ journeyAnswers[answer.field] | default("not provided", true) }}
+      {% else %}
+        {{ answer.value | safe }}
+      {% endif %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      {% set changeStep = answer.field and steps | stepFor(answer.field) %}
+      <a class="govuk-link"
+         href="{% if changeStep %}{{ changeStep.url }}?journey={{ data.journey }}&step={{ changeStep.step }}{% else %}#{% endif %}"
+      >Change<span class="govuk-visually-hidden"> {{ answer.field }}</span></a>
+    </dd>
+  </div>
+  {% endfor %}
+</dl>
+
+{% endblock %}

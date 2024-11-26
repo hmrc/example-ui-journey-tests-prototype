@@ -20,3 +20,15 @@ node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
+# Node.js ignores
+node_modules/
+
+# Prototype ignores - per-user
+.tmp/
+.env
+migrate.log
+usage-data-config.json
+
+# General ignores
+.DS_Store
+.idea
