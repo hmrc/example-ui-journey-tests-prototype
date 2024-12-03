@@ -1,13 +1,14 @@
 {% extends "layouts/step.njk" %}
 
 {% set buttonLabel = "Make payment" %}
+{% set pageHeading = thisStepData.heading | default("Make payment") %}
 
 {% block step %}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     
-    <p class="govuk-body">Amount to pay: <strong>£{{ thisStepData.amount }}</strong></p>
+    <p class="govuk-body">Amount to pay: <strong>£{{ thisStepData.amount | default("0.00") }}</strong></p>
     <p class="govuk-body">{{ thisStepData.description }}</p>
 
     <div class="govuk-form-group">
