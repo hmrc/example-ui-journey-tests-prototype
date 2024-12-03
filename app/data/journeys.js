@@ -296,7 +296,7 @@ module.exports = [ // this file is in /assets so changes won't trigger destructi
                 title: "Party booking complete"
             }
         ]
-    }
+    },
     {
         name: "Apply for a permit", steps: [
             {
