@@ -43,6 +43,11 @@ module.exports = [ // this file is in /assets so changes won't trigger destructi
     {
         name: "Create an account", steps: [
             {
+                url: "/login",
+                heading: "Sign in to your account",
+                field: "login-details"
+            },
+            {
                 url: "/text-input",
                 question: "What is your name?",
                 field: "name"
