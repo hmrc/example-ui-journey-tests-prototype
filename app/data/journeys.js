@@ -218,4 +218,83 @@ module.exports = [ // this file is in /assets so changes won't trigger destructi
            ]
        }
 
+    {
+        name: "Plan a party", steps: [
+            {
+                url: "/text-input",
+                question: "What's the name of the party?",
+                field: "party-name"
+            },
+            {
+                url: "/email",
+                question: "What's your contact email for the party?",
+                field: "party-email"
+            },
+            {
+                url: "/date",
+                question: "When is the party?",
+                field: "party-date"
+            },
+            {
+                url: "/autocomplete",
+                question: "Where will the party be held?",
+                field: "party-location"
+            },
+            {
+                url: "/character-count",
+                question: "Describe your party theme and requirements",
+                field: "party-description"
+            },
+            {
+                url: "/checkboxes",
+                question: "What refreshments would you like?",
+                field: "refreshments",
+                items: [
+                    { value: "hot-food", text: "Hot food" },
+                    { value: "cold-buffet", text: "Cold buffet" },
+                    { value: "drinks", text: "Drinks" },
+                    { value: "desserts", text: "Desserts" },
+                    { divider: "or" },
+                    { value: "none", text: "None required", behaviour: "exclusive" }
+                ]
+            },
+            {
+                url: "/radios",
+                question: "What size venue do you need?",
+                field: "venue-size",
+                items: [
+                    {value: "small", text: "Small (up to 30 people)"},
+                    {value: "medium", text: "Medium (30-100 people)"},
+                    {value: "large", text: "Large (100+ people)"}
+                ]
+            },
+            {
+                url: "/file-upload",
+                question: "Upload any reference images or documents",
+                field: "party-documents"
+            },
+            {
+                url: "/check-your-answers",
+                heading: "Check your party details",
+                answers: [
+                    { field: "party-name", label: "Party name" },
+                    { field: "party-email", label: "Contact email" },
+                    { field: "party-date", label: "Date" },
+                    { field: "party-location", label: "Location" },
+                    { field: "party-description", label: "Description" },
+                    { field: "refreshments", label: "Refreshments" },
+                    { field: "venue-size", label: "Venue size" }
+                ]
+            },
+            {
+                url: "/card-payment",
+                heading: "Pay deposit",
+                field: "party-deposit"
+            },
+            {
+                url: "/confirmation-page",
+                title: "Party booking complete"
+            }
+        ]
+    }
 ];
