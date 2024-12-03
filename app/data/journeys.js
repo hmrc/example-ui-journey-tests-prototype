@@ -438,7 +438,7 @@ module.exports = [ // this file is in /assets so changes won't trigger destructi
             },
             {
                 url: "/card-payment",
-                pageHeading: "Pay application fee",
+                heading: "Pay application fee",
                 field: "application-payment",
                 amount: "25.00",
                 description: "Application processing fee"
