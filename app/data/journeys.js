@@ -211,7 +211,7 @@ module.exports = [ // this file is in /assets so changes won't trigger destructi
 
                 {
                     url: "/card-payment",
-                    heading: "Pay your deposit",
+                    pageHeading: "Pay your deposit",
                     field: "pet-deposit"
                 },
 
@@ -293,7 +293,7 @@ module.exports = [ // this file is in /assets so changes won't trigger destructi
             },
             {
                 url: "/card-payment",
-                heading: "Pay deposit",
+                pageHeading: "Pay deposit",
                 field: "party-deposit"
             },
             {
@@ -438,7 +438,7 @@ module.exports = [ // this file is in /assets so changes won't trigger destructi
             },
             {
                 url: "/card-payment",
-                heading: "Pay application fee",
+                pageHeading: "Pay application fee",
                 field: "application-payment",
                 amount: "25.00",
                 description: "Application processing fee"
