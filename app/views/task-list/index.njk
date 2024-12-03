@@ -1,0 +1,35 @@
+{% extends "layouts/step.njk" %}
+
+{% block step %}
+{{ govukTaskList({
+  items: thisStepData.items | default([
+    {
+      title: {
+        text: "Check you can apply"
+      },
+      href: "#",
+      status: {
+        text: "Completed"
+      }
+    },
+    {
+      title: {
+        text: "Prepare application"
+      },
+      href: "#",
+      status: {
+        text: "In progress"
+      }
+    },
+    {
+      title: {
+        text: "Submit and pay"
+      },
+      href: "#",
+      status: {
+        text: "Not started"
+      }
+    }
+  ])
+}) }}
+{% endblock %}

@@ -297,4 +297,36 @@ module.exports = [ // this file is in /assets so changes won't trigger destructi
             }
         ]
     }
+    {
+        name: "Apply for a permit", steps: [
+            {
+                url: "/task-list",
+                heading: "Application progress",
+                items: [
+                    {
+                        title: { text: "Check eligibility" },
+                        status: { text: "Not started" }
+                    },
+                    {
+                        title: { text: "Complete application" },
+                        status: { text: "Cannot start yet" }
+                    },
+                    {
+                        title: { text: "Pay and submit" },
+                        status: { text: "Cannot start yet" }
+                    }
+                ]
+            },
+            {
+                url: "/warning-text",
+                warning: "You must provide accurate information or your application will be rejected."
+            },
+            {
+                url: "/notification-banner",
+                type: "success",
+                titleText: "Application started",
+                text: "Your reference number is HDJ2123F"
+            }
+        ]
+    }
 ];
