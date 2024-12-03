@@ -333,5 +333,121 @@ module.exports = [ // this file is in /assets so changes won't trigger destructi
                 text: "Your reference number is HDJ2123F"
             }
         ]
+    },
+    {
+        name: "View all page types", steps: [
+            {
+                url: "/accordion",
+                heading: "Information sections"
+            },
+            {
+                url: "/text-input",
+                question: "What is your full name?",
+                field: "full-name"
+            },
+            {
+                url: "/email",
+                question: "What is your email address?",
+                field: "email-address"
+            },
+            {
+                url: "/date",
+                question: "What is your date of birth?",
+                field: "date-of-birth"
+            },
+            {
+                url: "/autocomplete",
+                question: "Where do you live?",
+                field: "location"
+            },
+            {
+                url: "/character-count",
+                question: "Tell us about yourself",
+                field: "about-you"
+            },
+            {
+                url: "/checkboxes",
+                question: "What are your interests?",
+                field: "interests",
+                items: [
+                    { value: "reading", text: "Reading" },
+                    { value: "sports", text: "Sports" },
+                    { value: "music", text: "Music" },
+                    { value: "travel", text: "Travel" },
+                    { value: "cooking", text: "Cooking" },
+                    { divider: "or" },
+                    { value: "none", text: "None of the above", behaviour: "exclusive" }
+                ]
+            },
+            {
+                url: "/radios",
+                question: "How did you hear about us?",
+                field: "heard-about",
+                items: [
+                    {value: "search", text: "Search engine"},
+                    {value: "social", text: "Social media"},
+                    {value: "friend", text: "Friend or family"},
+                    {value: "other", text: "Other"}
+                ]
+            },
+            {
+                url: "/file-upload",
+                question: "Upload a profile picture",
+                field: "profile-picture"
+            },
+            {
+                url: "/task-list",
+                heading: "Application progress",
+                items: [
+                    {
+                        title: { text: "Personal details" },
+                        status: { text: "Completed" }
+                    },
+                    {
+                        title: { text: "Upload documents" },
+                        status: { text: "Completed" }
+                    },
+                    {
+                        title: { text: "Review and submit" },
+                        status: { text: "In progress" }
+                    }
+                ]
+            },
+            {
+                url: "/warning-text",
+                warning: "Please review your information carefully before proceeding."
+            },
+            {
+                url: "/notification-banner",
+                type: "success",
+                titleText: "Progress saved",
+                text: "Your information has been saved successfully"
+            },
+            {
+                url: "/check-your-answers",
+                heading: "Check your answers",
+                answers: [
+                    { field: "full-name", label: "Full name" },
+                    { field: "email-address", label: "Email" },
+                    { field: "date-of-birth", label: "Date of birth" },
+                    { field: "location", label: "Location" },
+                    { field: "about-you", label: "About you" },
+                    { field: "interests", label: "Interests" },
+                    { field: "heard-about", label: "How you heard about us" }
+                ]
+            },
+            {
+                url: "/card-payment",
+                heading: "Pay application fee",
+                field: "application-payment",
+                amount: "25.00",
+                description: "Application processing fee"
+            },
+            {
+                url: "/confirmation-page",
+                title: "Application complete",
+                reference: "HDJ2123F"
+            }
+        ]
     }
 ];
