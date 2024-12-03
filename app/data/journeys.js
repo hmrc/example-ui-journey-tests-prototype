@@ -216,7 +216,7 @@ module.exports = [ // this file is in /assets so changes won't trigger destructi
                }
 
            ]
-       }
+       },
 
     {
         name: "Plan a party", steps: [
