@@ -4,51 +4,90 @@
 
 {% block step %}
 
-{{ govukInput({
-  label: {
-    text: "Name on the account"
-  },
-  id: "name-on-the-account",
-  autocomplete: "name",
-  spellcheck: false
-}) }}
+<h1 class="govuk-heading-l">{{ thisStepData.heading }}</h1>
 
-{{ govukInput({
-  label: {
-    text: "Sort code"
-  },
-  classes: "govuk-input--width-5 govuk-input--extra-letter-spacing",
-  hint: {
-    text: "Must be 6 digits long"
-  },
-  id: "sort-code",
-  inputmode: "numeric",
-  spellcheck: false
-}) }}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    
+    <p class="govuk-body">Amount to pay: <strong>£{{ thisStepData.amount }}</strong></p>
+    <p class="govuk-body">{{ thisStepData.description }}</p>
 
-{{ govukInput({
-  label: {
-    text: "Account number"
-  },
-  classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
-  hint: {
-    text: "Must be between 6 and 8 digits long"
-  },
-  id: "account-number",
-  inputmode: "numeric",
-  spellcheck: false
-}) }}
+    <div class="govuk-form-group">
+      {{ govukInput({
+        label: {
+          text: "Name on card"
+        },
+        id: thisStepData.fields.cardholderName,
+        name: thisStepFieldName + "[cardholderName]",
+        type: "text",
+        autocomplete: "cc-name",
+        spellcheck: false,
+        value: journeyAnswers[thisStepData.field].cardholderName
+      }) }}
 
-{{ govukInput({
-  label: {
-    text: "Building society roll number (if you have one)"
-  },
-  classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
-  hint: {
-    text: "You can find it on your card, statement or passbook"
-  },
-  id: "roll-number",
-  spellcheck: false
-}) }}
+      {{ govukInput({
+        label: {
+          text: "Card number"
+        },
+        id: thisStepData.fields.cardNumber,
+        name: thisStepFieldName + "[cardNumber]",
+        type: "text",
+        inputmode: "numeric",
+        pattern: "[0-9]*",
+        classes: "govuk-input--width-20",
+        autocomplete: "cc-number",
+        spellcheck: false,
+        value: journeyAnswers[thisStepData.field].cardNumber
+      }) }}
+
+      {{ govukDateInput({
+        id: thisStepData.fields.expiryDate,
+        namePrefix: thisStepFieldName + "[expiryDate]",
+        fieldset: {
+          legend: {
+            text: "Expiry date",
+            classes: "govuk-fieldset__legend--s"
+          }
+        },
+        hint: {
+          text: "For example, 12 24"
+        },
+        items: [
+          {
+            name: "month",
+            classes: "govuk-input--width-2",
+            autocomplete: "cc-exp-month",
+            value: journeyAnswers[thisStepData.field].expiryDate.month
+          },
+          {
+            name: "year",
+            classes: "govuk-input--width-2",
+            autocomplete: "cc-exp-year",
+            value: journeyAnswers[thisStepData.field].expiryDate.year
+          }
+        ]
+      }) }}
+
+      {{ govukInput({
+        label: {
+          text: "Security code"
+        },
+        id: thisStepData.fields.securityCode,
+        name: thisStepFieldName + "[securityCode]",
+        type: "text",
+        inputmode: "numeric",
+        pattern: "[0-9]*",
+        classes: "govuk-input--width-3",
+        autocomplete: "cc-csc",
+        spellcheck: false,
+        hint: {
+          text: "The last 3 digits on the back of the card"
+        },
+        value: journeyAnswers[thisStepData.field].securityCode
+      }) }}
+    </div>
+
+  </div>
+</div>
 
 {% endblock %}
