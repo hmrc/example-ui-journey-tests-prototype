@@ -24,9 +24,15 @@ async function takeScreenshots() {
   for (let journeyIndex = 0; journeyIndex < journeys.length; journeyIndex++) {
     const journey = journeys[journeyIndex];
     console.log(`Taking screenshots for journey: ${journey.name}`);
-    
-    // Create journey directory
-    const journeyDir = path.join(screenshotsDir, journey.name.replace(/[^a-z0-9]/gi, '_').toLowerCase());
+      
+    // Create journey directory using slugify-like transformation
+    const journeyDir = path.join(screenshotsDir, journey.name.toLowerCase()
+      .replace(/\s+/g, '_')           // Replace spaces with _
+      .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+      .replace(/\-\-+/g, '_')         // Replace multiple - with single _
+      .replace(/^-+/, '')             // Trim - from start of text
+      .replace(/-+$/, ''));           // Trim - from end of text
+
     if (!fs.existsSync(journeyDir)) {
       fs.mkdirSync(journeyDir);
     }
@@ -35,17 +41,18 @@ async function takeScreenshots() {
     for (let stepIndex = 0; stepIndex < journey.steps.length; stepIndex++) {
       const step = journey.steps[stepIndex];
       const url = `http://localhost:3000${step.url}?journey=${journeyIndex}&step=${stepIndex}`;
-      
+        
       try {
         await page.goto(url, { waitUntil: 'networkidle0' });
-        
-        // Take screenshot
-        const filename = `${stepIndex + 1}_${step.url.replace(/\//g, '_')}.png`;
+          
+        // Take screenshot with padded step number
+        const stepNumber = (stepIndex + 1).toString().padStart(2, '0');
+        const filename = `${stepNumber}_${step.url.replace(/\//g, '_')}.png`;
         await page.screenshot({
           path: path.join(journeyDir, filename),
           fullPage: true
         });
-        
+          
         console.log(`  Captured step ${stepIndex + 1}: ${step.url}`);
       } catch (error) {
         console.error(`  Failed to capture step ${stepIndex + 1}: ${step.url}`);
