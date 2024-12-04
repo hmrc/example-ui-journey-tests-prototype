@@ -1,0 +1,64 @@
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">Journey Screenshots</h1>
+
+    {% for journey in journeys %}
+      <h2 class="govuk-heading-m">{{ journey.name }}</h2>
+      
+      <div class="journey-screenshots">
+        {% for step in journey.steps %}
+          <div class="screenshot-box">
+            <h3 class="govuk-heading-s">Step {{ loop.index }}: {{ step.url }}</h3>
+            <img src="/screenshots/{{ journey.name | slugify }}/{{ loop.index | padStart(2, '0') }}_{{ step.url | replace('/', '_') }}.png" 
+                 alt="Screenshot of {{ step.url }}"
+                 class="journey-screenshot">
+          </div>
+          
+          {% if not loop.last %}
+            <div class="journey-arrow">→</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      
+      {% if not loop.last %}
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+.journey-screenshots {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 20px 0;
+  gap: 15px;
+  align-items: center;
+}
+
+.screenshot-box {
+  flex: 0 0 auto;
+  width: 300px;
+  padding: 10px;
+  border: 1px solid #b1b4b6;
+  border-radius: 5px;
+}
+
+.journey-screenshot {
+  width: 100%;
+  height: auto;
+  border: 1px solid #b1b4b6;
+}
+
+.journey-arrow {
+  flex: 0 0 auto;
+  font-size: 24px;
+  color: #505a5f;
+  padding: 0 10px;
+}
+</style>
+{% endblock %}
