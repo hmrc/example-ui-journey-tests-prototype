@@ -1,81 +1,130 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs');
-const path = require('path');
-const journeys = require('../app/data/journeys');
+const puppeteer = require("puppeteer");
+const fs = require("fs").promises;
+const path = require("path");
+const journeys = require("../app/data/journeys");
 
-async function takeScreenshots() {
-  // Create screenshots directory if it doesn't exist
-  const screenshotsDir = path.join(__dirname, '../screenshots');
-  if (!fs.existsSync(screenshotsDir)) {
-    fs.mkdirSync(screenshotsDir);
-  }
+const createSlug = (text) => {
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, "_")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "_")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+};
 
-  // Start the browser
+const ensureDirectoryExists = async (dirPath) => {
+  await fs.mkdir(dirPath, { recursive: true });
+};
+
+const setupBrowser = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  
-  // Set viewport size
-  await page.setViewport({
-    width: 1280,
-    height: 800
-  });
+  await page.setViewport({ width: 1280, height: 800 });
+  return { browser, page };
+};
 
-  // For each journey
-  for (let journeyIndex = 0; journeyIndex < journeys.length; journeyIndex++) {
-    const journey = journeys[journeyIndex];
-    console.log(`Taking screenshots for journey: ${journey.name}`);
-      
-    // Create journey directory using slugify-like transformation
-    const journeyDir = path.join(screenshotsDir, journey.name.toLowerCase()
-      .replace(/\s+/g, '_')           // Replace spaces with _
-      .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-      .replace(/\-\-+/g, '_')         // Replace multiple - with single _
-      .replace(/^-+/, '')             // Trim - from start of text
-      .replace(/-+$/, ''));           // Trim - from end of text
+const captureStep = async (page, journeyDir, step, journeyIndex, stepIndex) => {
+  const url = `http://localhost:3000${step.url}?journey=${journeyIndex}&step=${stepIndex}`;
+  const stepNumber = (stepIndex + 1).toString().padStart(2, "0");
+  const filename = `${stepNumber}_${step.url.replace(/\//g, "_")}.png`;
+  const filePath = path.join(journeyDir, filename);
 
-    if (!fs.existsSync(journeyDir)) {
-      fs.mkdirSync(journeyDir);
-    }
-
-    // For each step in the journey
-    for (let stepIndex = 0; stepIndex < journey.steps.length; stepIndex++) {
-      const step = journey.steps[stepIndex];
-      const url = `http://localhost:3000${step.url}?journey=${journeyIndex}&step=${stepIndex}`;
-        
-      try {
-        await page.goto(url, { waitUntil: 'networkidle0' });
-          
-        // Take screenshot with padded step number
-        const stepNumber = (stepIndex + 1).toString().padStart(2, '0');
-        const filename = `${stepNumber}_${step.url.replace(/\//g, '_')}.png`;
-        await page.screenshot({
-          path: path.join(journeyDir, filename),
-          fullPage: true
-        });
-          
-        console.log(`  Captured step ${stepIndex + 1}: ${step.url}`);
-      } catch (error) {
-        console.error(`  Failed to capture step ${stepIndex + 1}: ${step.url}`);
-        console.error(error);
-      }
-    }
-  }
-
-  await browser.close();
-  console.log('Screenshot capture complete!');
-}
-
-// First check if the prototype kit server is running
-const checkServer = async () => {
   try {
-    const response = await fetch('http://localhost:3000');
-    if (response.ok) {
-      await takeScreenshots();
-    }
+    await page.goto(url, { waitUntil: "networkidle0" });
+    await page.screenshot({
+      path: filePath,
+      fullPage: true,
+    });
+    console.log(`  Captured step ${stepIndex + 1}: ${step.url}`);
   } catch (error) {
-    console.error('Error: Please start the prototype kit server first (npm run dev)');
-    process.exit(1);
+    console.error(`  Failed to capture step ${stepIndex + 1}: ${step.url}`);
+    console.error(error);
   }
 };
 
-checkServer();
+const processJourney = async (screenshotsDir, journey, journeyIndex) => {
+  const { browser, page } = await setupBrowser();
+
+  try {
+    console.log(`Taking screenshots for journey: ${journey.name}`);
+    const journeyDir = path.join(screenshotsDir, createSlug(journey.name));
+    await ensureDirectoryExists(journeyDir);
+
+    for (let stepIndex = 0; stepIndex < journey.steps.length; stepIndex++) {
+      await captureStep(
+        page,
+        journeyDir,
+        journey.steps[stepIndex],
+        journeyIndex,
+        stepIndex,
+      );
+    }
+  } finally {
+    await browser.close();
+  }
+};
+
+const takeScreenshots = async () => {
+  const screenshotsDir = path.join(__dirname, "../screenshots");
+  await ensureDirectoryExists(screenshotsDir);
+
+  // Process all journeys in parallel
+  await Promise.all(
+    journeys.map((journey, index) =>
+      processJourney(screenshotsDir, journey, index),
+    ),
+  );
+
+  console.log("Screenshot capture complete!");
+};
+
+const { spawn } = require("child_process");
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const startServer = async () => {
+  const server = spawn("npm", ["run", "dev"], {
+    stdio: "ignore",
+    detached: true,
+  });
+
+  // Wait for server to start
+  for (let i = 0; i < 30; i++) {
+    try {
+      const response = await fetch("http://localhost:3000");
+      if (response.ok) {
+        return server;
+      }
+    } catch {
+      await wait(1000);
+    }
+  }
+  throw new Error("Server failed to start");
+};
+
+const main = async () => {
+  let server;
+  try {
+    server = await startServer();
+    await takeScreenshots();
+  } finally {
+    if (server) {
+      try {
+        process.kill(-server.pid); // The leading minus kills the whole process group
+      } catch (err) {
+        // Ignore ESRCH errors
+        // ESRCH = "no such process" error, safe to ignore if process already terminated
+        if (err.code !== "ESRCH") {
+          throw err;
+        }
+      }
+    }
+  }
+};
+
+if (require.main === module) {
+  main().catch((error) => {
+    console.error("Fatal error:", error);
+    process.exit(1);
+  });
+}
