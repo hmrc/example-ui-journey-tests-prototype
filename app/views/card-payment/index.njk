@@ -7,7 +7,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    
+
     <p class="govuk-body">Amount to pay: <strong>£{{ thisStepData.amount | default("0.00") }}</strong></p>
     <p class="govuk-body">{{ thisStepData.description }}</p>
 
@@ -17,7 +17,7 @@
           text: "Name on card"
         },
         id: thisStepData.fields.cardholderName,
-        name: thisStepFieldName + "[cardholderName]",
+        name: "",
         type: "text",
         autocomplete: "cc-name",
         spellcheck: false,
@@ -29,7 +29,7 @@
           text: "Card number"
         },
         id: thisStepData.fields.cardNumber,
-        name: thisStepFieldName + "[cardNumber]",
+        name: "",
         type: "text",
         inputmode: "numeric",
         pattern: "[0-9]*",
@@ -41,7 +41,7 @@
 
       {{ govukDateInput({
         id: thisStepData.fields.expiryDate,
-        namePrefix: thisStepFieldName + "[expiryDate]",
+        namePrefix: "",
         fieldset: {
           legend: {
             text: "Expiry date",
@@ -53,13 +53,13 @@
         },
         items: [
           {
-            name: "month",
+            name: "",
             classes: "govuk-input--width-2",
             autocomplete: "cc-exp-month",
             value: journeyAnswers[thisStepData.field].expiryDate.month
           },
           {
-            name: "year",
+            name: "",
             classes: "govuk-input--width-2",
             autocomplete: "cc-exp-year",
             value: journeyAnswers[thisStepData.field].expiryDate.year
@@ -72,7 +72,7 @@
           text: "Security code"
         },
         id: thisStepData.fields.securityCode,
-        name: thisStepFieldName + "[securityCode]",
+        name: "",
         type: "text",
         inputmode: "numeric",
         pattern: "[0-9]*",

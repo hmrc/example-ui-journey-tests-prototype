@@ -378,6 +378,11 @@ module.exports = [
         field: "date-of-birth",
       },
       {
+        url: "/date/month-year",
+        question: "What is you pets birth month?",
+        field: "birth-month",
+      },
+      {
         url: "/autocomplete",
         question: "Where do you live?",
         field: "location",
