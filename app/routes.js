@@ -26,11 +26,6 @@ router.use((req, res, next) => {
   next();
 });
 
-// Screenshots route
-router.get("/screenshots", (req, res) => {
-  res.render("screenshots/index");
-});
-
 // Serve screenshot images
 router.use(
   "/screenshots",

@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs").promises;
 const path = require("path");
-const journeys = require("../app/data/journeys");
+const journeys = require("../app/assets/journeys");
 
 const createSlug = (text) => {
   return text
