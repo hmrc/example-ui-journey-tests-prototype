@@ -46,15 +46,19 @@
   grid-auto-flow: column;
   grid-auto-columns: min-content;
   overflow-x: auto;
-  padding: 20px 0;
+  padding: 35px;
+  background: linear-gradient(0deg, rgb(128, 128, 128) 0%, darkgray 100%);
 }
 
 .transition {
   display: grid;
   grid-row: span 2;
-  width: 20px;
-  align-content: center;
+  color: #333;
   padding: 8px;
+  font-size: 1.4rem;
+  align-content: center;
+  font-weight: bold;
+  margin-left: -2px;
 }
 
 .step {
@@ -63,7 +67,10 @@
   grid-row: span 2;
   grid-template-rows: subgrid;
   border: 1px solid #b1b4b6;
-  border-radius: 3px;
+  border-radius: 5px;
+  background: #ffffff;
+  overflow: hidden;
+  border-bottom-color: #FFFFFF50;
 }
 
 .screenshot {
@@ -82,7 +89,6 @@
 
 .caption {
   grid-row: 2;
-  background: #ffffff;
   width: 100%;
   box-sizing: border-box;
   display:flex;
@@ -109,6 +115,7 @@
   padding:10px;
   margin-bottom:0;
   border-top:1px solid #b1b4b6;
+  border-bottom: 2px solid #b1b4b650;
 }
 </style>
 {% endblock %}
