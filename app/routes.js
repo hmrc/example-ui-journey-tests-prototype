@@ -19,8 +19,10 @@ router.use((req, res, next) => {
     delete req.session.data["journey"];
     delete req.session.data["step"];
   }
-  // we want this updated without a reload
-  delete require.cache[require.resolve("./assets/journeys")];
+  if (process.env.NODE_ENV !== "production") {
+    // so that we don't have to restart node to pick up changes
+    delete require.cache[require.resolve("./assets/journeys")];
+  }
   res.locals.journeys = require("./assets/journeys");
   res.locals.currentUrl = req.originalUrl;
   next();
