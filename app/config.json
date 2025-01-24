@@ -1,3 +1,4 @@
 {
-  "serviceName": "Example UI Journey Tests Prototype"
+  "serviceName": "Example UI Journey Tests Prototype",
+  "port": 6001
 }
