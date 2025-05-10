@@ -1,5 +1,20 @@
 {% extends "layouts/step.njk" %}
 
+{% set defaultDateItems = defaultDateItems | default([
+    {
+      name: "day",
+      classes: "govuk-input--width-2"
+    },
+    {
+      name: "month",
+      classes: "govuk-input--width-2"
+    },
+    {
+      name: "year",
+      classes: "govuk-input--width-4"
+    }
+]) %}
+
 {% block step %}
 
 {{ govukDateInput({
@@ -12,6 +27,7 @@
       classes: "govuk-fieldset__legend--l"
     }
   },
+  items: thisStepData.items | default(defaultDateItems) | setDateValues(journeyAnswers[thisStepData.field]),
   hint: {
     text: "For example, 27 3 2007"
   }

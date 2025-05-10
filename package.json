@@ -1,13 +1,15 @@
 {
   "scripts": {
     "dev": "govuk-prototype-kit dev",
-    "serve": "govuk-prototype-kit serve",
-    "start": "govuk-prototype-kit start"
+    "serve": "govuk-prototype-kit serve", 
+    "start": "govuk-prototype-kit start",
+    "screenshots": "node scripts/take-screenshots.js"
   },
   "dependencies": {
     "@govuk-prototype-kit/common-templates": "2.0.1",
     "govuk-frontend": "5.7.1",
-    "govuk-prototype-kit": "13.16.2"
+    "govuk-prototype-kit": "13.16.2",
+    "puppeteer": "^21.0.0"
   },
   "overrides": {
     "sass": "1.77.6"

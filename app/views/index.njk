@@ -15,12 +15,21 @@
     <ul class="govuk-list govuk-list--bullet">
       {% set patterns = [
         "accordion",
+        "autocomplete",
+        "card-payment",
         "character-count",
-        "confirmation-page",
+        "confirmation-page", 
         "check-your-answers",
         "date",
         "checkboxes",
-        "radios"
+        "email",
+        "file-upload",
+        "login",
+        "radios",
+        "task-list",
+        "text-input",
+        "warning-text",
+        "notification-banner"
       ] %}
       {% for pattern in patterns %}
         <li><a href="/{{ pattern }}">{{ pattern }}</a></li>
@@ -35,6 +44,11 @@
       {% for journey in journeys %}
       <li><a href="{{ journey.steps[0].url }}?journey={{ loop.index0 }}&step=0">{{ journey.name }}</a></li>
       {% endfor %}
+    </ul>
+
+    <h2 class="govuk-heading-m">Screenshots</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a href="/screenshots">View Journey Screenshots</a></li>
     </ul>
   </div>
 </div>

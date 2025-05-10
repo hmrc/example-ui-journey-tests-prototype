@@ -1,0 +1,9 @@
+{% extends "layouts/step.njk" %}
+
+{% block step %}
+{{ govukNotificationBanner({
+  type: thisStepData.type | default("success"),
+  text: thisStepData.text | default("Your application has been updated."),
+  titleText: thisStepData.titleText | default("Success")
+}) }}
+{% endblock %}

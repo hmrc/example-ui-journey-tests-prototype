@@ -1,0 +1,121 @@
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">Journey Screenshots</h1>
+
+    {% for journey in journeys %}
+      {% set journeyIndex = loop.index0 %}
+
+      <h2 class="govuk-heading-m">{{ journey.name }}</h2>
+
+      <div class="journey">
+        {% for step in journey.steps %}
+          <div class="step">
+            <div class="screenshot">
+              <img src="/screenshots/{{ journey.name | slugify }}/{{ loop.index | padStart(2, '0') }}_{{ step.url | replace('/', '_') }}.png"
+                   alt="Screenshot of {{ step.url }}"
+                   class="journey-screenshot">
+            </div>
+            <div class="caption">
+              <a href="{{ step.url }}?journey={{ journeyIndex }}&step={{ loop.index0 }}" class="screenshot-heading govuk-link">
+                {{- step.title or step.question or step.heading or step.url -}}
+              </a>
+              <span class="screenshot-step govuk-body-s">Step {{ loop.index }} of {{ journey.steps.length }}</span>
+            </div>
+          </div>
+
+          {% if not loop.last %}
+            <div class="transition">→</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if not loop.last %}
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+.journey {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-auto-flow: column;
+  grid-auto-columns: min-content;
+  overflow-x: auto;
+  padding: 35px;
+  background: linear-gradient(0deg, rgb(128, 128, 128) 0%, darkgray 100%);
+}
+
+.transition {
+  display: grid;
+  grid-row: span 2;
+  color: #333;
+  padding: 8px;
+  font-size: 1.4rem;
+  align-content: center;
+  font-weight: bold;
+  margin-left: -2px;
+}
+
+.step {
+  width: 350px;
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  border: 1px solid #b1b4b6;
+  border-radius: 5px;
+  background: #ffffff;
+  overflow: hidden;
+  border-bottom-color: #FFFFFF50;
+}
+
+.screenshot {
+  grid-row: 1;
+  background: #f3f2f1;
+  width: 100%;
+  height: 100%;
+}
+
+.journey-screenshot {
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: top;
+}
+
+.caption {
+  grid-row: 2;
+  width: 100%;
+  box-sizing: border-box;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.screenshot-heading {
+  display: block;
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 800;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: #1d70b8;
+  text-decoration: none;
+  padding:10px;
+  border-top:1px solid #b1b4b6;
+}
+
+.screenshot-step {
+  display: block;
+  padding:10px;
+  margin-bottom:0;
+  border-top:1px solid #b1b4b6;
+  border-bottom: 2px solid #b1b4b650;
+}
+</style>
+{% endblock %}
